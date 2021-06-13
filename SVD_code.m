@@ -10,7 +10,7 @@ figure, subplot(2,3,1)
 imagesc(Y), axis off, colormap gray
 title('Original')
 plotind = 2;
-for r=[10 40 100 150 296]; % Truncation value
+for r=[10 40 100 150 498]; % Truncation value
  Xapprox = U(:,1:r)*S(1:r,1:r)*V(:,1:r)'; % Approx. image
  subplot(2,3,plotind), plotind = plotind + 1;
  imagesc(Xapprox), axis off
@@ -29,10 +29,16 @@ R=1:450;
        psne(i)=psnr(Xap,Y);
    end
    figure
-   plot(R,psne); hold on
+   plot(R,psne); 
+   hold on
+   ylabel('PSNR')
+   xlabel('r value')
+   title('r vs PSNR')
    figure
-   plot(R,error); hold on
-
-
+   plot(R,error);
+   hold on
+   ylabel('MSE')
+   xlabel('r value')
+   title('r vs MSE')
 
 
