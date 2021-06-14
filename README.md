@@ -1,6 +1,11 @@
 # SVD_Image_Compression
 
-## This repository contains the Code for the SVD Image copression Project done as part of the Mathematics Project.
+#### This repository contains the Code for the SVD Image copression Project done as part of the Mathematics Project.
+
+Report Work done till now : https://docs.google.com/document/d/1ir_EHINUXI70tXn0VK1X5R7FnOt_hihCj1xKcdiPGbA/edit?usp=sharing
+
+Slide : https://docs.google.com/presentation/d/1kN0lCm4Ket8mh8Li5ZXTI0i-5B-0J-3y-KQLeWqfXCc/edit?usp=sharing
+
 ### MEMBERS
 
 <br>ABHIJITH A THAMPI - AM.EN.U4AIE20102<br>
