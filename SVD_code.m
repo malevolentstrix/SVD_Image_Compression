@@ -1,7 +1,10 @@
 close all
 clear all
 clc
+inImage=imread('dog.jpg');
 filename = 'dog.jpg';
+inImage=rgb2gray(inImage);
+inImageD=double(inImage);
  [X, map] = imread(filename);
  figure('Name','ORIGINAL component of the imported image');
  imshow(X);
@@ -24,6 +27,8 @@ filename = 'dog.jpg';
 Red =double(R);
 Green = double(G);
 Blue = double(B);
+dispEr = [];
+numSVals = [];
 N = 1;
 % Compute values for the red image
 [U,S,V]=svd(Red);
@@ -72,6 +77,9 @@ Cimg = cat(3, Dr, Dg, Db);
 imshow(uint8(Cimg));
 imwrite(uint8(Cimg), sprintf('%dcolor.jpg', N));
 title(buffer);
+error=sum(sum((inImageD-Db).^2));
+dispEr = [dispEr; error];
+ numSVals = [numSVals; N];
 
 for N=2:2:20
  % Recompute modes for the red image - already solved by SVD above
@@ -118,6 +126,10 @@ for N=2:2:20
  imshow(uint8(Cimg));
  imwrite(uint8(Cimg), sprintf('%dcolor.jpg', N));
  title(buffer);
+ error=sum(sum((inImageD-Db).^2));
+ dispEr = [dispEr; error];
+ numSVals = [numSVals; N];
+
 end
 for N=25:25:100
  % Recompute modes for the red image - already solved by SVD above
@@ -164,4 +176,14 @@ for N=25:25:100
  imshow(uint8(Cimg));
  imwrite(uint8(Cimg), sprintf('%dcolor.jpg', N));
  title(buffer);
+ error=sum(sum((inImageD-Db).^2));
+ % store vals for display
+ dispEr = [dispEr; error];
+ numSVals = [numSVals; N];
 end
+figure;
+title('Error in compression');
+plot(numSVals, dispEr);
+grid on
+xlabel('Number of Singular Values used');
+ylabel('Error between compress and original image');
