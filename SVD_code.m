@@ -1,14 +1,17 @@
 close all
 clear all
 clc
-inImage=imread('dog.jpg');
-filename = 'dog.jpg';
+inImage=imread('bridge.png');
+X=im2gray(inImage); % Convert RBG to gray, 256 bit to double.
+Y=im2double(X);
+filename = 'bridge.png';
 inImage=rgb2gray(inImage);
 inImageD=double(inImage);
+[a,b,c] = svd(Y);
  [X, map] = imread(filename);
  figure('Name','ORIGINAL component of the imported image');
  imshow(X);
- imwrite(X, '!original.jpg');
+ imwrite(X, '!original.png');
  R = X(:,:,1);
  G = X(:,:,2);
  B = X(:,:,3);
@@ -75,13 +78,13 @@ figure;
 buffer = sprintf('Colored image output using %d singular values', N);
 Cimg = cat(3, Dr, Dg, Db);
 imshow(uint8(Cimg));
-imwrite(uint8(Cimg), sprintf('%dcolor.jpg', N));
+imwrite(uint8(Cimg), sprintf('%dcolor.png', N));
 title(buffer);
 error=sum(sum((inImageD-Db).^2));
 dispEr = [dispEr; error];
  numSVals = [numSVals; N];
 
-for N=2:2:20
+for N=10:10:100
  % Recompute modes for the red image - already solved by SVD above
  C = S;
  C(N+1:end,:)=0;
@@ -124,14 +127,14 @@ for N=2:2:20
  buffer = sprintf('Colored image output using %d singular values', N);
  Cimg = cat(3, Dr, Dg, Db);
  imshow(uint8(Cimg));
- imwrite(uint8(Cimg), sprintf('%dcolor.jpg', N));
+ imwrite(uint8(Cimg), sprintf('%dcolor.png', N));
  title(buffer);
  error=sum(sum((inImageD-Db).^2));
  dispEr = [dispEr; error];
  numSVals = [numSVals; N];
 
 end
-for N=25:25:100
+for N=100:50:300
  % Recompute modes for the red image - already solved by SVD above
  C = S;
  C(N+1:end,:)=0;
@@ -174,7 +177,7 @@ for N=25:25:100
  buffer = sprintf('Colored image output using %d singular values', N);
  Cimg = cat(3, Dr, Dg, Db);
  imshow(uint8(Cimg));
- imwrite(uint8(Cimg), sprintf('%dcolor.jpg', N));
+ imwrite(uint8(Cimg), sprintf('%dcolor.png', N));
  title(buffer);
  error=sum(sum((inImageD-Db).^2));
  % store vals for display
@@ -187,3 +190,16 @@ plot(numSVals, dispEr);
 grid on
 xlabel('Number of Singular Values used');
 ylabel('Error between compress and original image');
+
+r=1:450;
+   for i=1:450
+       Xap=a(:,1:i)*b(1:i,1:i)*c(:,1:i)'; 
+       %error(i)=immse(Xap,Y);
+       psne(i)=psnr(Xap,Y);
+   end
+   figure
+   plot(r,psne); 
+   hold on
+   ylabel('PSNR')
+   xlabel('r value')
+   title('r vs PSNR')
