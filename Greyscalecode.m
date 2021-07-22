@@ -12,7 +12,7 @@ imwrite(uint8(inImageD), 'original.png');
 % reconstruct the image
 dispEr = [];
 numSVals = [];
-N = 1
+N = 1;
  % store the singular values in a temporary var
  C = S;
  % discard the diagonal values not required for compression
@@ -31,7 +31,7 @@ N = 1
  dispEr = [dispEr; error];
  numSVals = [numSVals; N];
 
-for N=10:10:50
+for N=10:10:100
  % store the singular values in a temporary var
  C = S;
  % discard the diagonal values not required for compression
@@ -50,7 +50,7 @@ for N=10:10:50
  dispEr = [dispEr; error];
  numSVals = [numSVals; N];
 end
-for N=50:50:300
+for N=100:50:300
  % store the singular values in a temporary var
  C = S;
  % discard the diagonal values not required for compression
@@ -74,5 +74,18 @@ figure;
 title('Error in compression');
 plot(numSVals, dispEr);
 grid on
+title("Error in Compression");
 xlabel('Number of Singular Values used');
 ylabel('Error between compress and original image');
+R=1:450;
+for i=1:450
+    Xap=U(:,1:i)*S(1:i,1:i)*V(:,1:i)';
+    psne(i)=psnr(Xap,inImageD);
+end
+figure;
+title('PSNR Value in compression');
+plot(R,psne);
+grid on
+title('PSNR Value in compression');
+xlabel('Number of Singular Values used');
+ylabel('PSNR');
